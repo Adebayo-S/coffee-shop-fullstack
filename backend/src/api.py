@@ -15,6 +15,7 @@ db_drop_and_create_all()
 
 # ROUTES
 
+
 @app.route('/drinks', methods=['GET'])
 def get_drinks():
     try:
@@ -26,7 +27,6 @@ def get_drinks():
         'success': True,
         'drinks': [drink.short() for drink in drinks]
     }, 200)
-
 
 
 @app.route('/drinks-detail', methods=['GET'])
@@ -41,6 +41,7 @@ def get_drinks_detail(payload):
         'success': True,
         'drinks': [drink.long() for drink in drinks]
     }, 200)
+
 
 @app.route('/drinks', methods=['POST'])
 @requires_auth('post:drinks')
@@ -107,7 +108,7 @@ def delete_drinks(payload, id):
     return jsonify({
         'success': True,
         'delete': id
-        }), 200
+    }), 200
 
 
 # Error Handling
@@ -124,13 +125,15 @@ def unprocessable(error):
         "message": "unprocessable"
     }), 422
 
+
 @app.errorhandler(400)
-def  bad_request(error):
+def bad_request(error):
     return jsonify({
         "success": False,
         "error": 400,
         "message": "bad request"
     }), 400
+
 
 @app.errorhandler(404)
 def not_found(error):
@@ -138,23 +141,26 @@ def not_found(error):
         "success": False,
         "error": 404,
         "message": "resource not found"
-        }), 404
+    }), 404
+
 
 @app.errorhandler(405)
-def  method_not_allowed(error):
+def method_not_allowed(error):
     return jsonify({
         "success": False,
         "error": 405,
         "message": "method not allowed"
     }), 405
 
+
 @app.errorhandler(500)
-def  server_error(error):
+def server_error(error):
     return jsonify({
         "success": False,
         "error": 500,
         "message": "internal server errror"
     }), 500
+
 
 @app.errorhandler(AuthError)
 def auth_error(err):
